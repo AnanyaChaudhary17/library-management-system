@@ -1,0 +1,53 @@
+erDiagram
+    CATEGORY ||--o{ BOOK : "classifies"
+    BOOK ||--o{ ISSUE : "is borrowed in"
+    MEMBER ||--o{ ISSUE : "borrows"
+    STAFF ||--o{ ISSUE : "records"
+    ISSUE ||--o| FINE : "may incur"
+
+    CATEGORY {
+        int category_id PK
+        varchar category_name UK
+    }
+    BOOK {
+        int book_id PK
+        varchar isbn UK
+        varchar title
+        varchar author
+        varchar publisher
+        smallint pub_year
+        int category_id FK
+        int total_copies
+        int available_copies
+    }
+    MEMBER {
+        int member_id PK
+        varchar name
+        varchar email UK
+        varchar phone
+        enum member_type
+        date join_date
+        enum status
+    }
+    STAFF {
+        int staff_id PK
+        varchar name
+        varchar username UK
+        varchar password_hash
+    }
+    ISSUE {
+        int issue_id PK
+        int book_id FK
+        int member_id FK
+        int staff_id FK
+        date issue_date
+        date due_date
+        date return_date
+    }
+    FINE {
+        int fine_id PK
+        int issue_id FK
+        decimal amount
+        enum paid_status
+        date paid_date
+    }
